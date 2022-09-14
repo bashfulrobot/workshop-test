@@ -10,7 +10,7 @@ const server = http.createServer((req, res) => {
   fs.readFile("./mydata.json", "utf8", (err, jsonString) => {
     if (err) {
       console.log("File read failed:", err);
-      const printme = "Hello Sysdig Workshop!"
+      const printme = "Hello Sysdig Workshop - With security scan!"
       res.end(printme)
     }
     const printme = jsonString
