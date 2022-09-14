@@ -22,15 +22,15 @@ jobs:
       - name: Build the Docker image
         run: docker build . --file Dockerfile --tag ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.run_number }} --tag ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
 
-      - name: Download Sysdig Secure Inline Scan - New
+      - name: Download Sysdig Secure Inline Scan
         run: |
           curl -LO "https://download.sysdig.com/scanning/bin/sysdig-cli-scanner/$(curl -L -s https://download.sysdig.com/scanning/sysdig-cli-scanner/latest_version.txt)/linux/amd64/sysdig-cli-scanner"
 
-      - name: Set Permissions Sysdig Secure Inline Scan - New
+      - name: Set Permissions Sysdig Secure Inline Scan
         run: |
           chmod +x ./sysdig-cli-scanner
 
-      - name: Scan Image Sysdig Secure Inline Scan - New
+      - name: Scan Image Sysdig Secure Inline Scan
         env:
           SECURE_API_TOKEN: ${{ secrets.SECURE_API_TOKEN }}
         run: ./sysdig-cli-scanner --apiurl ${{env.SYSDIG_URL}} --full-vulns-table docker://${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.run_number }}
