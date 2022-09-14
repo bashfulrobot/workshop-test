@@ -7,7 +7,7 @@
 
 ## About <a name = "about"></a>
 
-THis code is used for an internal workshop. Nothing of value.
+This code is used for an internal workshop. Nothing of value.
 
 ## Getting Started <a name = "getting_started"></a>
 
