@@ -19,8 +19,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Get current date
+        id: date
+        run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
+
       - name: Build the Docker image
-        run: docker build . --file Dockerfile --tag ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.run_number }} --tag ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+        run: docker build . --file Dockerfile --tag ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.date.outputs.date }}.${{ github.run_number }} --tag ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
 
       - name: Download Sysdig Secure Inline Scan
         run: |
@@ -33,7 +37,8 @@ jobs:
       - name: Scan Image Sysdig Secure Inline Scan
         env:
           SECURE_API_TOKEN: ${{ secrets.SECURE_API_TOKEN }}
-        run: ./sysdig-cli-scanner --apiurl ${{env.SYSDIG_URL}} --full-vulns-table docker://${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:v0.01.${{ github.run_number }}
+
+        run: ./sysdig-cli-scanner --apiurl ${{env.SYSDIG_URL}} --full-vulns-table docker://${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.date.outputs.date }}.${{ github.run_number }}
 
       - name: Log in to the Container registry
         uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
