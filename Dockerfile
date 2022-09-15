@@ -1,4 +1,4 @@
-FROM node:14.20.0-slim
+FROM node:18.9.0-slim
 RUN mkdir -p /app
 WORKDIR /app
 RUN useradd -ms /bin/bash app
